@@ -3,17 +3,24 @@
 // add blank border to input
 var lineLength = input[0].Length + 2;
 var totalLines = input.Length + 2;
-var blankLine = string.Empty;
+var blankLine = new char[lineLength];
 for (var i = 0; i < lineLength; i++)
 {
-    blankLine += '.';
+    blankLine[i] = '.';
 }
 
-var lines = new string[totalLines];
+var lines = new char[totalLines][];
 lines[0] = blankLine;
 for (var i = 1; i < totalLines - 1; i++)
 {
-    lines[i] = '.' + input[i - 1] + '.';
+    lines[i] = new char[lineLength];
+    lines[i][0] = '.';
+    for (var j = 1; j < lineLength - 1; j++)
+    {
+        lines[i][j] = input[i - 1][j - 1];
+    }
+
+    lines[i][lineLength - 1] = '.';
 }
 
 lines[totalLines - 1] = blankLine;
@@ -40,7 +47,7 @@ Console.WriteLine(total);
 return;
 
 
-bool CanBeAccessed(string[] array, int i, int j, int max)
+bool CanBeAccessed(char[][] array, int i, int j, int max)
 {
     var number = 0;
     for (var x = i - 1; x <= i + 1; x++)
