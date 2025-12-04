@@ -26,22 +26,30 @@ for (var i = 1; i < totalLines - 1; i++)
 lines[totalLines - 1] = blankLine;
 
 var total = 0;
-for (var i = 0; i < totalLines; i++)
+
+int changedThisTime;
+do
 {
-    var line = lines[i];
-    for (var j = 0; j < lineLength; j++)
+    changedThisTime = 0;
+    for (var i = 0; i < totalLines; i++)
     {
-        var ch = line[j];
-        if (ch == '@')
+        var line = lines[i];
+        for (var j = 0; j < lineLength; j++)
         {
-            if (CanBeAccessed(lines, i, j, 3))
+            var ch = line[j];
+            if (ch == '@')
             {
-                total++;
-                // Console.WriteLine($"{i},{j},{total}");
+                if (CanBeAccessed(lines, i, j, 3))
+                {
+                    changedThisTime++;
+                    total++;
+                    // Console.WriteLine($"{i},{j},{total}");
+                    lines[i][j] = 'X';
+                }
             }
         }
     }
-}
+} while (changedThisTime > 0);
 
 Console.WriteLine(total);
 return;
