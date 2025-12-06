@@ -1,6 +1,6 @@
 ﻿var lines = File.ReadAllLines("input");
-var total = 0;
-const int numberOfBatteries = 2;
+var total = 0L;
+const int numberOfBatteries = 12;
 foreach (var line in lines)
 {
     var fullNumber = string.Empty;
@@ -9,23 +9,25 @@ foreach (var line in lines)
     {
         var howManyMissing = numberOfBatteries - i;
         var (firstDigit, firstPosition) =
-            GetLargestDigit(line.Substring(lastPosition + 1, line.Length - (lastPosition + 1) - howManyMissing));
+            GetLargestDigit(line, lastPosition, howManyMissing);
+        Console.WriteLine($"{firstDigit}: {firstPosition}");
         fullNumber += firstDigit;
         lastPosition = firstPosition;
     }
 
-    var output = int.Parse(fullNumber);
+    Console.WriteLine(line + " -> " + fullNumber);
+    var output = long.Parse(fullNumber);
     total += output;
 }
 
 Console.WriteLine(total);
 return;
 
-(char largest, int position) GetLargestDigit(string input)
+(char largest, int position) GetLargestDigit(string input, int lastPosition, int howManyMissing)
 {
     var largest = 0;
     var position = 0;
-    for (var i = 0; i < input.Length; i++)
+    for (var i = lastPosition + 1; i < input.Length - howManyMissing; i++)
     {
         var ch = input[i];
         var digit = ch - '0';
