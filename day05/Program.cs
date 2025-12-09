@@ -23,23 +23,39 @@ foreach (var line in lines)
     }
 }
 
-var totalFresh = 0;
-foreach (var ingredient in ingredients)
+var orderedRanges = ranges.OrderBy(r => r.first).ThenBy(a => a.last).ToList();
+
+var total = 0L;
+var previousLast = 0L;
+foreach (var r in orderedRanges)
 {
-    var fresh = false;
-    foreach (var range in ranges)
+    var beginning = r.first <= previousLast ? previousLast + 1 : r.first;
+    var subtotal = r.last - beginning + 1;
+    if (subtotal > 0)
     {
-        if (ingredient >= range.first && ingredient <= range.last)
-        {
-            fresh = true;
-            break;
-        }
+        total += subtotal;
     }
 
-    if (fresh)
-    {
-        totalFresh++;
-    }
+    previousLast = r.last;
 }
 
-Console.WriteLine($"Part one: {totalFresh}");
+// var totalFresh = 0;
+// foreach (var ingredient in ingredients)
+// {
+//     var fresh = false;
+//     foreach (var range in ranges)
+//     {
+//         if (ingredient >= range.first && ingredient <= range.last)
+//         {
+//             fresh = true;
+//             break;
+//         }
+//     }
+//
+//     if (fresh)
+//     {
+//         totalFresh++;
+//     }
+// }
+
+Console.WriteLine($"Part two: {total}");
